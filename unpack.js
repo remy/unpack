@@ -29,6 +29,9 @@ const decode = a => new TextDecoder().decode(a);
 const encode = a => new TextEncoder().encode(a);
 
 function binarySlice(value, ptr, length) {
+  if (!length || isNaN(length)) {
+    length = 8 - ptr;
+  }
   const mask = 2 ** length - 1;
   const shift = 8 - (ptr + length);
   const res = (value >> shift) & mask;
@@ -39,6 +42,10 @@ unpack('b$flash b$bright b3$ink b3$paper', 0b10101010); // ?
 
 function unpack(template, data, p = 0) {
   const result = {}; // return an object
+
+  if (Array.isArray(data)) {
+    data = Uint8Array.from(data);
+  }
 
   if (typeof data === 'string') {
     data = encode(data).buffer; // ?
@@ -55,7 +62,6 @@ function unpack(template, data, p = 0) {
 
   const re = new RegExp(pattern, 'g');
   let m = [];
-  let j = 0;
   let bytePtr = 0;
 
   const firstChr = template[0];
@@ -92,7 +98,11 @@ function unpack(template, data, p = 0) {
     }
 
     const size = type.length; // ?
-    const end = c === 'b' ? 1 : size * length;
+    let end = c === 'b' ? 1 : size * length;
+
+    if (isNaN(length)) {
+      end = data.byteLength - p;
+    }
 
     if (p + end > data.byteLength) {
       return result;
