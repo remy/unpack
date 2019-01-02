@@ -1,8 +1,8 @@
-const { TextDecoder, TextEncoder } = require('util');
+// const { TextDecoder, TextEncoder } = require('util');
 require('./dataview-64');
 
 const pattern =
-  '([aAZbBhHcCWqQnNvVuUx@]|[sSlLiI][\\!><]?)(?:([\\d*]+)|(?:\\[(.*)\\]))?(?:\\$([a-z0-9_]+)\\b)?';
+  '([aAZbBhHcCWqQnNvVuUx@]|[sSlLiI][\\!><]?)(?:([\\d*]+)|(?:\\[(.*)\\]))?(?:\\$([a-zA-Z0-9_]+)\\b)?';
 const typeMap = {
   x: { length: 1 },
   b: { length: 1 },

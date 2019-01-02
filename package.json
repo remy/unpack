@@ -1,10 +1,19 @@
 {
-  "name": "unpack",
+  "name": "@remy/unpack",
   "version": "1.0.0",
-  "main": "pack.js",
+  "main": "dist/unpack.js",
+  "files": [
+    "dist/unpack.js",
+    "dist/unpack.map"
+  ],
   "scripts": {
+    "build": "parcel build src/unpack.js",
+    "prepare": "npm run build",
     "test": "jest"
   },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ],
   "keywords": [
     "unpack",
     "binary",
@@ -13,6 +22,7 @@
   "author": "Remy Sharp",
   "license": "MIT",
   "devDependencies": {
+    "cssnano": "^4.1.8",
     "jest": "^23.6.0"
   },
   "dependencies": {},

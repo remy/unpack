@@ -1,5 +1,5 @@
 /* eslint-env jest */
-const unpack = require('../unpack');
+const unpack = require('../');
 
 test('hex', () => {
   expect(unpack('a2x2a2', Uint8Array.from([65, 66, 0, 0, 67, 68]))).toEqual({
