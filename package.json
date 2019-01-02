@@ -1,0 +1,19 @@
+{
+  "name": "unpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "pack.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "unpack",
+    "binary",
+    "data"
+  ],
+  "author": "Remy Sharp",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^23.6.0"
+  }
+}
