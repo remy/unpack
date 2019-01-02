@@ -2,12 +2,12 @@
 const unpack = require('../unpack');
 
 test('hex', () => {
-  // expect(unpack('ccxxcc', Uint8Array.from([65, 66, 67, 68])).join('')).toEqual(
-  //   'AB\0\0CD'
-  // );
-  // expect(unpack('s10HHb', 'raymond   \x32\x12\x08\x01\x08')[3]).toEqual(8);
+  expect(unpack('a2x2a2', Uint8Array.from([65, 66, 0, 0, 67, 68]))).toEqual({
+    0: 'AB',
+    1: 'CD',
+  });
 
-  // expect(unpack('H4', 1234)).toBe(0x12 + 0x34);
+  expect(unpack('>s', Uint8Array.from([0x12, 0x34]))[0]).toEqual(0x1234);
   expect(unpack('<s', Uint8Array.from([0x12, 0x34]))[0]).toEqual(0x3412);
 
   expect(unpack('S$a S$b I$c', '\x00\x01\x00\x02\x00\x00\x00\x03')).toEqual({
@@ -74,5 +74,7 @@ test('packed example', () => {
     0x10,
   ]);
 
-  expect(unpack('a4$mc a$ver x15 N N N N N N', data));
+  expect.objectContaining(unpack('a4$mc a$ver x15 N N N N N N', data), {
+    ver: 2,
+  });
 });
