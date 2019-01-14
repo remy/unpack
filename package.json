@@ -1,6 +1,6 @@
 {
   "name": "@remy/unpack",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "dist/unpack.js",
   "files": [
     "dist/unpack.js",
@@ -26,5 +26,5 @@
     "jest": "^23.6.0"
   },
   "dependencies": {},
-  "description": ""
+  "description": "Unpacks bytes ala Perl's unpack"
 }
