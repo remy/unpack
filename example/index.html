@@ -1,16 +1,16 @@
 <html>
+
   <body>
-    <h1>unpack demo</h1>
+    <h1><a href="https://npmjs.com/@remy/unpack">unpack</a> demo</h1>
     <p>
       Drag and drop files into this window, and using the text entry below,
       write a template to unpack the data into.
     </p>
     <p>For example, drop a gif with the following template:</p>
-    <script src="../src/unpack.js"></script>
-    <script type="module" src="./index.js"></script>
     <link rel="stylesheet" href="./style.css" />
     <div id="entry">
       <div>
+        <label>Start unpack @ <input type="number" id="offset" value="0"> <span id="of"></span></label>
         <textarea id="template" spellcheck="false">
 a3$sig
 a3$ver
@@ -20,12 +20,12 @@ b$globalColorFlag
 b3$res
 b$sort
 b3$sizeOfColorTable
-c$bgColorIndex</textarea
-        >
+c$bgColorIndex</textarea>
         <pre id="result"></pre>
       </div>
       <div id="help">
         <h2>Help</h2>
+        <p>Start unpack string with <strong>&lt;</strong> for little endian</p>
         <p>
           <strong>a</strong> A string with arbitrary binary data, will be null
           padded.
@@ -39,10 +39,10 @@ c$bgColorIndex</textarea
         <p><strong>C</strong> An unsigned char (octet) value.</p>
         <p><strong>s</strong> A signed short (16-bit) value.</p>
         <p><strong>S</strong> An unsigned short value.</p>
-        <p><strong>l</strong> A signed long (32-bit) value.</p>
-        <p><strong>L</strong> An unsigned long value.</p>
-        <p><strong>i</strong> A signed integer value.</p>
+        <p><strong>i</strong> A signed integer (32-bit) value.</p>
         <p><strong>I</strong> A unsigned integer value.</p>
+        <p><strong>l</strong> A signed long (64-bit) value.</p>
+        <p><strong>L</strong> An unsigned long value.</p>
         <p>
           <strong>n</strong> An unsigned short (16-bit) in "network"
           (big-endian) order.
@@ -55,6 +55,8 @@ c$bgColorIndex</textarea
         <p><strong>d</strong> A double-precision float in native format.</p>
         <p><strong>x</strong> A null byte (a.k.a ASCII NUL, "\000", chr(0))</p>
       </div>
+      <script src="./index.js"></script>
     </div>
   </body>
+
 </html>

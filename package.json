@@ -1,15 +1,29 @@
 {
   "name": "@remy/unpack",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "main": "dist/unpack.js",
+  "browser": "dist/browser/index.html",
+  "module": "dist/module/unpack.js",
   "files": [
-    "dist/unpack.js",
-    "dist/unpack.map"
+    "dist"
   ],
+  "engines": {
+    "node": "12"
+  },
+  "esm": {
+    "cjs": true
+  },
+  "nyc": {
+    "require": [
+      "esm"
+    ]
+  },
   "scripts": {
-    "build": "parcel build src/unpack.js",
+    "build": "rm -rf dist/; parcel build src/unpack.js",
     "prepare": "npm run build",
-    "test": "jest"
+    "deploy": "rm -rf example/dist; parcel build example/index.html --out-dir example/dist/ && now --prod example/dist/",
+    "dev": "parcel example/index.html",
+    "test": "tap __test__/**.test.js"
   },
   "browserslist": [
     "last 2 Chrome versions"
@@ -23,8 +37,22 @@
   "license": "MIT",
   "devDependencies": {
     "cssnano": "^4.1.8",
-    "jest": "^23.6.0"
+    "esm": "^3.2.25",
+    "jest": "^25.1.0",
+    "parcel": "^2.0.0-alpha.3.2",
+    "tap": "^14.10.6",
+    "text-encoding": "^0.7.0"
   },
   "dependencies": {},
-  "description": "Unpacks bytes ala Perl's unpack"
+  "description": "Unpacks bytes ala Perl's unpack",
+  "repository": "git@github.com:remy/unpack.git",
+  "source": "src/unpack.js",
+  "targets": {
+    "node": {
+      "context": "node"
+    },
+    "browser": {
+      "context": "browser"
+    }
+  }
 }

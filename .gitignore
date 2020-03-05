@@ -1,3 +1,8 @@
 node_modules
-dist
-.cache
+dist/
+.cache/
+.parcel-cache/
+tmp
+data/
+.now
+.nyc_output/

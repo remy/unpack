@@ -1,32 +1,6 @@
-// const { TextDecoder, TextEncoder } = require('util');
-require('./dataview-64');
+import './dataview-64.js';
 
-const pattern =
-  '([aAZbBhHcCWqQnNvVuUx@]|[sSlLiI][\\!><]?)(?:([\\d*]+)|(?:\\[(.*)\\]))?(?:\\$([a-zA-Z0-9_]+)\\b)?';
-const typeMap = {
-  x: { length: 1 },
-  b: { length: 1 },
-  //B: { length: 1, fn: 'Uint8', little: true }, // bit
-  // h: { length: 2, fn: 'Uint16' },
-  // H: { length: 2, fn: 'Uint16', little: true }, // nibble
-  c: { length: 1, fn: 'Int8' }, // char == byte
-  C: { length: 1, fn: 'Uint8' },
-  a: { length: 1, fn: 'Uint8' }, // string with arbitrary, null padded
-  A: { length: 1, fn: 'Uint8' }, // string with arbitrary, space padded
-  s: { length: 2, fn: 'Int16' },
-  S: { length: 2, fn: 'Uint16' },
-  i: { length: 4, fn: 'Int32' },
-  I: { length: 4, fn: 'Uint32' },
-  l: { length: 4, fn: 'Int64' },
-  L: { length: 4, fn: 'Uint64' },
-  n: { length: 2, fn: 'Uint16', little: false },
-  N: { length: 4, fn: 'Uint32', little: false },
-  f: { length: 4, fn: 'Float32' },
-  d: { length: 8, fn: 'Float64' },
-};
-
-const decode = a => new TextDecoder().decode(a);
-const encode = a => new TextEncoder().encode(a);
+const { encode, decode, pattern, typeMap } = require('./lib');
 
 function binarySlice(value, ptr, length) {
   if (!length || isNaN(length)) {
@@ -38,9 +12,25 @@ function binarySlice(value, ptr, length) {
   return res;
 }
 
-unpack('b$flash b$bright b3$ink b3$paper', 0b10101010); // ?
+export class Unpack {
+  constructor(data) {
+    this.data = data;
+    this.offset = 0;
+  }
 
-function unpack(template, data, p = 0) {
+  parse(template) {
+    const res = unpack(template, this.data, this.offset);
+    this.last = res;
+    if (!res) {
+      return res;
+    }
+    this.offset = res.__offset;
+    delete res.__offset;
+    return res;
+  }
+}
+
+function unpack(template, data, offset = 0) {
   const result = {}; // return an object
 
   if (Array.isArray(data)) {
@@ -58,6 +48,10 @@ function unpack(template, data, p = 0) {
     }
   } else if (ArrayBuffer.isView(data)) {
     data = data.buffer;
+  }
+
+  if (offset >= data.byteLength) {
+    return null;
   }
 
   const re = new RegExp(pattern, 'g');
@@ -101,13 +95,15 @@ function unpack(template, data, p = 0) {
     let end = c === 'b' ? 1 : size * length;
 
     if (isNaN(length)) {
-      end = data.byteLength - p;
+      end = data.byteLength - offset;
     }
 
-    if (p + end > data.byteLength) {
-      return result;
+    if (offset + end > data.byteLength) {
+      // return result;
+      break;
     }
-    const view = new DataView(data, p, end);
+
+    const view = new DataView(data, offset, end);
 
     if (c !== 'b') {
       // reset the byte counter
@@ -122,7 +118,7 @@ function unpack(template, data, p = 0) {
 
         bytePtr += length;
         if (bytePtr > 7) {
-          p++;
+          offset++;
           bytePtr = 0;
         }
 
@@ -130,21 +126,37 @@ function unpack(template, data, p = 0) {
       case 'x':
         // x is skipped null bytes
         templateCounter--;
-        p += end;
+        offset += end;
         break;
       case 'a':
       case 'A':
         result[index] = decode(view).padEnd(length, c === 'A' ? ' ' : '\0');
-        p += end;
+        if (c === 'a' && result[index].indexOf('\0') !== -1) {
+          result[index] = result[index].substring(
+            0,
+            result[index].indexOf('\0')
+          );
+        }
+
+        offset += end;
         break;
       default:
-        result[index] = view[`get${type.fn}`](0, little);
-        p += end;
+        if (length > 1) {
+          result[index] = new type.array(
+            view.buffer.slice(offset, offset + end)
+          );
+        } else {
+          result[index] = view[`get${type.fn}`](0, little);
+        }
+        offset += end;
         break;
     }
   }
 
+  result.__offset = offset;
+
   return result;
 }
 
-module.exports = unpack;
+export default unpack;
+// unpack('<I$length', Uint8Array.from([0xe7, 0x00, 0x00, 0x00])); // ?

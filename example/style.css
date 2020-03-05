@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 10px;
 }
@@ -16,6 +17,7 @@ html, body {
   width: 100%;
   border-radius: 2px;
   border: 1px solid #ccc;
+  resize: none;
 }
 
 pre {
@@ -24,7 +26,7 @@ pre {
   background: #efefef;
   padding: 20px;
   border-radius: 2px;
-
+  overflow: scroll;
 }
 
 #entry {
@@ -33,6 +35,7 @@ pre {
 
 #entry > * {
   flex: 1;
+  max-width: 65%;
 }
 
 #help {
@@ -43,4 +46,58 @@ pre {
 
 #help * {
   font-size: 14px;
+}
+
+#offset {
+  width: 100px;
+}
+
+label {
+  margin: 10px 0;
+  display: block;
+}
+
+#log {
+  padding: 0;
+}
+
+li {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0px 0;
+  overflow: auto;
+  padding-bottom: 20px;
+  font-size: 16px;
+}
+
+li span {
+  font-size: 16px;
+}
+
+li:before {
+  content: '> ';
+  flex: none;
+  padding-right: 8px;
+  color: #ccc;
+}
+
+.log {
+  flex: 1;
+  white-space: pre;
+}
+
+.timer {
+  flex: none;
+  color: #666;
+  padding-left: 32px;
+}
+
+.string {
+  color: green;
+}
+
+.hex {
+  color: rgb(117, 117, 117);
 }

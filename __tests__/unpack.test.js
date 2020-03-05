@@ -1,5 +1,5 @@
 /* eslint-env jest */
-const unpack = require('../');
+const unpack = require('../src/unpack');
 
 test('hex', () => {
   expect(unpack('a2x2a2', Uint8Array.from([65, 66, 0, 0, 67, 68]))).toEqual({
@@ -24,6 +24,31 @@ test('binary', () => {
     2: 0b101,
     3: 0b010,
   });
+});
+
+test('int', () => {
+  expect(
+    unpack(
+      '<A8$sig C$eof C$issue C$version I$length',
+      Uint8Array.from([
+        0x50,
+        0x4c,
+        0x55,
+        0x53,
+        0x33,
+        0x44,
+        0x4f,
+        0x53,
+        0x1a,
+        0x01,
+        0x00,
+        0xe7,
+        0x00,
+        0x00,
+        0x00,
+      ])
+    ).length
+  ).toBe(231);
 });
 
 test('packed example', () => {
