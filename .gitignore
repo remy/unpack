@@ -4,5 +4,5 @@ dist/
 .parcel-cache/
 tmp
 data/
-.now
+.now/
 .nyc_output/

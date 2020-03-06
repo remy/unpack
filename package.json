@@ -1,12 +1,15 @@
 {
   "name": "@remy/unpack",
-  "version": "2.0.0",
-  "main": "dist/unpack.js",
-  "browser": "dist/browser/index.html",
-  "module": "dist/module/unpack.js",
+  "version": "2.1.0",
+  "main": "dist/index.js",
   "files": [
     "dist"
   ],
+  "babel": {
+    "plugins": [
+      "@babel/plugin-proposal-export-namespace-from"
+    ]
+  },
   "engines": {
     "node": "12"
   },
@@ -19,10 +22,11 @@
     ]
   },
   "scripts": {
-    "build": "rm -rf dist/; parcel build src/unpack.js",
+    "build": "rm -rf dist/; parcel build src/index.js",
     "prepare": "npm run build",
     "deploy": "rm -rf example/dist; parcel build example/index.html --out-dir example/dist/ && now --prod example/dist/",
     "dev": "parcel example/index.html",
+    "dev:module": "parcel src/index.js",
     "test": "tap __test__/**.test.js"
   },
   "browserslist": [
@@ -36,10 +40,13 @@
   "author": "Remy Sharp",
   "license": "MIT",
   "devDependencies": {
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-proposal-export-namespace-from": "^7.8.3",
     "cssnano": "^4.1.8",
     "esm": "^3.2.25",
     "jest": "^25.1.0",
     "parcel": "^2.0.0-alpha.3.2",
+    "parcel-bundler": "^1.12.4",
     "tap": "^14.10.6",
     "text-encoding": "^0.7.0"
   },
@@ -47,7 +54,7 @@
   "description": "Unpacks bytes ala Perl's unpack",
   "repository": "git@github.com:remy/unpack.git",
   "source": "src/unpack.js",
-  "targets": {
+  "_targets": {
     "node": {
       "context": "node"
     },
