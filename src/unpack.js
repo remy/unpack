@@ -1,6 +1,6 @@
 import './dataview-64.js';
 
-const { encode, decode, pattern, typeMap } = require('./lib');
+import { encode, decode, pattern, typeMap } from './lib';
 
 function binarySlice(value, ptr, length) {
   if (!length || isNaN(length)) {

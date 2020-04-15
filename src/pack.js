@@ -1,4 +1,4 @@
-import { encode, decode, pattern, typeMap } from './lib';
+import { encode, pattern, typeMap } from './lib';
 
 export default function pack(template, data, offset = 0) {
   if (ArrayBuffer.isView(data)) {
@@ -27,7 +27,7 @@ export default function pack(template, data, offset = 0) {
     let c = m[1];
 
     if (c.length === 2) {
-      little = c[1] === '<';
+      // little = c[1] === '<';
       c = c[0];
     }
 
@@ -117,6 +117,7 @@ export default function pack(template, data, offset = 0) {
         break;
       case 'a':
       case 'A':
+        // eslint-disable-next-line no-case-declarations
         const value = new Uint8Array(result.buffer, offset, end);
         value.set(encode(data[index]));
         offset += end;
