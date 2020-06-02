@@ -1,6 +1,6 @@
-import unpack from '../src/unpack.js';
+import { unpack } from 'https://unpkg.com/@remy/unpack?module';
 import { toHex } from './to.js';
-const $ = s => document.querySelector(s);
+const $ = (s) => document.querySelector(s);
 
 const input = $('#template');
 const output = $('#result');
@@ -58,12 +58,12 @@ update();
 const root = document.documentElement;
 root.ondragover = () => false;
 root.ondragend = () => false;
-root.ondrop = e => {
+root.ondrop = (e) => {
   e.preventDefault();
 
   const droppedFile = e.dataTransfer.files[0];
   const reader = new FileReader();
-  reader.onload = event => {
+  reader.onload = (event) => {
     console.log('file read', event.target);
     file = event.target.result;
     $('#of').innerHTML = ` (${file.byteLength} bytes)`;
