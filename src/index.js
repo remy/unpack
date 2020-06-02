@@ -1,2 +1,7 @@
-export * as unpack from './unpack';
-export * as pack from './pack';
+import unpack from './unpack';
+import pack from './pack';
+
+export default {
+  unpack,
+  pack,
+};
