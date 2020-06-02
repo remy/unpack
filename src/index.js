@@ -1,7 +1,4 @@
-import unpack from './unpack';
+import unpack, { Unpack } from './unpack';
 import pack from './pack';
 
-export default {
-  unpack,
-  pack,
-};
+export { Unpack, unpack, pack };

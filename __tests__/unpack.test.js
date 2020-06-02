@@ -1,24 +1,35 @@
-/* eslint-env jest */
-const unpack = require('../src/unpack');
+import test from 'ava';
+import { unpack } from '../src/';
 
-test('hex', () => {
-  expect(unpack('a2x2a2', Uint8Array.from([65, 66, 0, 0, 67, 68]))).toEqual({
-    0: 'AB',
-    1: 'CD',
-  });
+function withoutOffset(source) {
+  delete source.__offset;
+  return source;
+}
 
-  expect(unpack('>s', Uint8Array.from([0x12, 0x34]))[0]).toEqual(0x1234);
-  expect(unpack('<s', Uint8Array.from([0x12, 0x34]))[0]).toEqual(0x3412);
+test('hex', (test) => {
+  test.deepEqual(
+    withoutOffset(unpack('a2x2a2', Uint8Array.from([65, 66, 0, 0, 67, 68]))),
+    {
+      0: 'AB',
+      1: 'CD',
+    }
+  );
 
-  expect(unpack('S$a S$b I$c', '\x00\x01\x00\x02\x00\x00\x00\x03')).toEqual({
-    a: 1,
-    b: 2,
-    c: 3,
-  });
+  test.deepEqual(unpack('>s', Uint8Array.from([0x12, 0x34]))[0], 0x1234);
+  test.deepEqual(unpack('<s', Uint8Array.from([0x12, 0x34]))[0], 0x3412);
+
+  test.deepEqual(
+    withoutOffset(unpack('S$a S$b I$c', '\x00\x01\x00\x02\x00\x00\x00\x03')),
+    {
+      a: 1,
+      b: 2,
+      c: 3,
+    }
+  );
 });
 
-test('binary', () => {
-  expect(unpack('b b b3 b3', 0b10101010)).toEqual({
+test('binary', (test) => {
+  test.deepEqual(withoutOffset(unpack('b b b3 b3', 0b10101010)), {
     0: 1,
     1: 0,
     2: 0b101,
@@ -26,8 +37,8 @@ test('binary', () => {
   });
 });
 
-test('int', () => {
-  expect(
+test('int', (test) => {
+  test.is(
     unpack(
       '<A8$sig C$eof C$issue C$version I$length',
       Uint8Array.from([
@@ -47,11 +58,12 @@ test('int', () => {
         0x00,
         0x00,
       ])
-    ).length
-  ).toBe(231);
+    ).length,
+    231
+  );
 });
 
-test('packed example', () => {
+test('packed example', (test) => {
   const data = Uint8Array.from([
     0x54,
     0x5a,
@@ -99,7 +111,5 @@ test('packed example', () => {
     0x10,
   ]);
 
-  expect.objectContaining(unpack('a4$mc a$ver x15 N N N N N N', data), {
-    ver: 2,
-  });
+  test.is(unpack('a4$mc a$ver x15 N N N N N N', data).ver, '2');
 });

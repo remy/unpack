@@ -1,9 +1,12 @@
 {
   "name": "@remy/unpack",
-  "version": "2.1.4",
+  "version": "2.1.6",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "browser": "dist/index.browser.js",
+  "prettier": {
+    "singleQuote": true
+  },
   "files": [
     "dist"
   ],
@@ -15,6 +18,11 @@
   "engines": {
     "node": "12"
   },
+  "ava": {
+    "require": [
+      "esm"
+    ]
+  },
   "esm": {
     "cjs": true
   },
@@ -25,11 +33,10 @@
   },
   "scripts": {
     "build": "rm -rf dist/; rollup -c rollup.config.js",
-    "prepare": "npm run build",
-    "deploy": "rm -rf example/dist; parcel build example/index.html --out-dir example/dist/ && now --prod example/dist/",
-    "dev": "parcel example/index.html",
-    "dev:module": "parcel src/index.js",
-    "test": "tap __test__/**.test.js"
+    "prepare": "npm run test && npm run build",
+    "_deploy": "rm -rf example/dist; parcel build example/index.html --out-dir example/dist/ && now --prod example/dist/",
+    "test:dev": "ava __tests__/*.test.js --no-coverage-report --watch",
+    "test": "ava __tests__/*.test.js"
   },
   "browserslist": [
     "last 2 Chrome versions"
@@ -44,12 +51,8 @@
   "devDependencies": {
     "@babel/core": "^7.8.7",
     "@babel/plugin-proposal-export-namespace-from": "^7.8.3",
-    "cssnano": "^4.1.8",
+    "ava": "^3.8.2",
     "esm": "^3.2.25",
-    "jest": "^25.1.0",
-    "parcel": "^2.0.0-alpha.3.2",
-    "parcel-bundler": "^1.12.4",
-    "tap": "^14.10.6",
     "text-encoding": "^0.7.0"
   },
   "dependencies": {},

@@ -1,19 +1,16 @@
-/* eslint-env jest */
 global.TextEncoder = require('text-encoding').TextEncoder;
-
+import test from 'ava';
 import { encode } from '../src/lib';
-import tap from 'tap';
-import pack from '../src/pack';
+import { pack } from '../src/';
 
-tap.test('strings and null', t => {
+test('strings and null', (t) => {
   t.deepEqual(
     pack('a2x2a2', ['AB', 'CD']),
     Uint8Array.from([65, 66, 0, 0, 67, 68])
   );
-  t.end();
 });
 
-tap.test('int and endianness', t => {
+test('int and endianness', (t) => {
   t.deepEqual(pack('>s', [0x1234]), Uint8Array.from([0x12, 0x34]));
 
   t.deepEqual(
@@ -26,29 +23,23 @@ tap.test('int and endianness', t => {
     pack('<s3', [0x3412, 0x3412, 0x3412]),
     Uint8Array.from([0x12, 0x34, 0x12, 0x34, 0x12, 0x34])
   );
-
-  t.end();
 });
 
-tap.test('long and endianness', t => {
+test('long and endianness', (t) => {
   t.deepEqual(
     pack('>i', [0x12345678]),
     Uint8Array.from([0x12, 0x34, 0x56, 0x78])
   );
-
-  t.end();
 });
 
-tap.test('int encoded', t => {
+test('int encoded', (t) => {
   t.deepEqual(
     pack('S$a S$b I$c', { a: 1, b: 2, c: 3 }),
     encode('\x00\x01\x00\x02\x00\x00\x00\x03')
   );
-
-  t.end();
 });
 
-tap.test('binary', t => {
+test('binary', (t) => {
   t.deepEqual(
     pack('b b b3 b3', {
       0: 1,
@@ -58,6 +49,4 @@ tap.test('binary', t => {
     }),
     Uint8Array.of(0b10101010)
   );
-
-  t.end();
 });
