@@ -6,7 +6,18 @@ const input = $('#template');
 const output = $('#result');
 const offset = $('#offset');
 
+const presets = {
+  bmp: `<a2$sig I$size I$reserved I$offset I$headerSize I$width i$height S$planes S$bitPP I$compress I$rawSize I$hr I$vr I$colors I$importantColors`,
+  tap:
+    '<S$headerLength C$flagByte C$type A10$filename S$length S$p1 S$p2 C$checksum',
+  '3dos':
+    '<A8$sig C$eof C$issue C$version I$length C$hType S$hFileLength n$autostart S$hOffset',
+};
 let file = null;
+
+window.selectPreset = (name) => {
+  input.value = presets[name].split(' ').join('\n');
+};
 
 const update = () => {
   if (file) {
