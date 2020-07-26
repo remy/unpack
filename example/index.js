@@ -12,6 +12,8 @@ const presets = {
     '<S$headerLength C$flagByte C$type A10$filename S$length S$p1 S$p2 C$checksum',
   '3dos':
     '<A8$sig C$eof C$issue C$version I$length C$hType S$hFileLength n$autostart S$hOffset',
+  wav:
+    '<a4$sig I$length a4$wave a4$fmt I$formatDataLength S$type S$channels I$sampleRate I$samplesPerChan S$bitsPerSamplePerChan S$bitsPerSample a4$data S$dataSize',
 };
 let file = null;
 
