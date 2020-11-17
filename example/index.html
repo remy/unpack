@@ -27,33 +27,33 @@ c$bgColorIndex</textarea>
         <h2>Help</h2>
         <p>Start unpack string with <strong>&lt;</strong> for little endian</p>
         <p>
-          <strong>a</strong> A string with arbitrary binary data, will be null
+          <strong>a</strong> string with arbitrary binary data, will be null
           padded.
         </p>
-        <p><strong>A</strong> A text (ASCII) string, will be space padded.</p>
+        <p><strong>A</strong> text (ASCII) string, will be space padded.</p>
         <p>
-          <strong>b</strong> A bit string (ascending bit order inside each
+          <strong>b</strong> bit string (ascending bit order inside each
           byte).
         </p>
-        <p><strong>c</strong> A signed char (8-bit) value.</p>
-        <p><strong>C</strong> An unsigned char (octet) value.</p>
-        <p><strong>s</strong> A signed short (16-bit) value.</p>
-        <p><strong>S</strong> An unsigned short value.</p>
-        <p><strong>i</strong> A signed integer (32-bit) value.</p>
-        <p><strong>I</strong> A unsigned integer value.</p>
-        <p><strong>l</strong> A signed long (64-bit) value.</p>
-        <p><strong>L</strong> An unsigned long value.</p>
+        <p><strong>c</strong> int8 (char / byte)</p>
+        <p><strong>C</strong> uint8</p>
+        <p><strong>s</strong> int16 (short)</p>
+        <p><strong>S</strong> uint16</p>
+        <p><strong>i</strong> int32 (int)</p>
+        <p><strong>I</strong> uint32</p>
+        <p><strong>l</strong> int64 (long)</p>
+        <p><strong>L</strong> uint64</p>
         <p>
-          <strong>n</strong> An unsigned short (16-bit) in "network"
+          <strong>n</strong> uint16 in "network"
           (big-endian) order.
         </p>
         <p>
-          <strong>N</strong> An unsigned long (32-bit) in "network" (big-endian)
+          <strong>N</strong> uint32 in "network" (big-endian)
           order.
         </p>
-        <p><strong>f</strong> A single-precision float in native format.</p>
-        <p><strong>d</strong> A double-precision float in native format.</p>
-        <p><strong>x</strong> A null byte (a.k.a ASCII NUL, "\000", chr(0))</p>
+        <p><strong>f</strong> float32 (single-precision float)</p>
+        <p><strong>d</strong> float64 (double-precision float)</p>
+        <p><strong>x</strong> null byte (a.k.a ASCII NUL, "\000", chr(0))</p>
       </div>
       <script type="module" src="./index.js"></script>
     </div>
